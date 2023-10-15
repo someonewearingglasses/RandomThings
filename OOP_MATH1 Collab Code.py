@@ -21,27 +21,36 @@ class FormSI:
         return f"y = {self.m}x + {self.b}"
     
     def remove_mdenom(self):
-        current = ""
+        self.current = ""
         for x in self.m: 
             if x == "/":
-                current = ""
+                self.current = ""
             if x == "x":
                 break
-            current += x
+            self.current += x
         try:
-            new_b = int(current[1:]) * self.b
+            denominator = int(self.current[1:])
+            self.b = denominator * self.b
             numerator = ""
             for m1 in self.m:
                 if m1 != "/":
                     numerator += m1
                 else:
                     break
-            self.m = numerator
-            return f"{current[1:]}(y = {self.m}/{current[1:]}x + {self.b}) --> {current[1:]}y = {self.m}x + {new_b}"
+            self.m = int(numerator)
+            return f"{denominator}(y = {self.m}/{denominator}x + {self.b//denominator}) --> {denominator}y = {self.m}x + {self.b}"
         except:
             pass
         return f"y = {self.m}x + {self.b}"
-        
+    
+    def distribution(self):
+        if self.current:
+            #assign fstrings to variables to make conditions for terms
+            previous = ""
+            step2 = ""
+            simplified = ""
+            return f"{self.current[1:]}y = {self.m}x + {self.b} --> {self.m * -1}x + {self.current[1:]}y + {self.b} = 0 --> {self.m}x - {self.current[1:]}y - {self.b} = 0"
+        return f"y = {self.m}x + {self.b} --> {self.m * -1}x + y + {self.b} = 0 --> {self.m}x - y - {self.b} = 0"
 class FormPS:
     def __init__(self, m, x, y):
         pass
@@ -58,3 +67,5 @@ if __name__ == '__main__':
         b = int(input("b = "))
         mb = FormSI(m,b)
         print(f"{mb} --> {mb.remove_mdenom()}")
+        print(mb.distribution())
+    print(" ")
