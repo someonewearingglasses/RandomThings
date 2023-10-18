@@ -1,12 +1,33 @@
 import random
 def make_binary(d):
-    return "b"
+    values = ""
+    while len(values) < 4*d:
+        values += random.choice(["0","1"])
+    return "".join(values)
+
 def make_octal(d):
-    return "o"
+    values = [0,0,0] + ([0] * d)
+    for i in range(len(values)):
+        values[i] = random.choice(range(1, 8))
+    return "".join(str(x) for x in values)
+
 def make_decimal(d):
-    return "d"
+    values = [0] * d
+    for i in range(len(values)):
+        values[i] = random.choice(range(1, 10))
+    return "".join(str(x) for x in values)
+    
 def make_hexadecimal(d):
-    return "h"
+    values = [0,0] + ([0] * d)
+    tens = {10:"A", 11: "B", 12:"C", 
+            13: "D", 14: "E", 15: "F"}
+    for i in range(len(values)):
+        number = random.choice(range(1, 16))
+        if number > 9:
+            values[i] = tens[number]
+        else:
+            values[i] = number
+    return "".join(str(x) for x in values)
 
 choices = ["binary", "octal", "decimal", "hexadecimal", "random"]
 choices2 = choices.copy()
